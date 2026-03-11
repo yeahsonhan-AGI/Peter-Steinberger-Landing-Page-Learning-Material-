@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -X POST \"https://fkwczudzzmigxwejfmap.supabase.co/rest/v1/rpc/exec_sql\" -H \"apikey: sb_publishable_9EMtJ7eG_kTBkO7ChoyPQA_rVDFt4RO\" -H \"Authorization: Bearer sb_publishable_9EMtJ7eG_kTBkO7ChoyPQA_rVDFt4RO\" -H \"Content-Type: application/json\" -d '{\"query\": \"CREATE TABLE IF NOT EXISTS comments \\(id UUID PRIMARY KEY DEFAULT gen_random_uuid\\(\\), username TEXT NOT NULL, content TEXT NOT NULL, created_at TIMESTAMPTZ DEFAULT NOW\\(\\)\\)\"}' 2>&1)",
+      "Bash(cd \"C:\\\\Users\\\\yason\\\\Rileys App\" && GIT_CURL_VERBOSE=1 GIT_TRACE=1 git push origin main 2>&1 | head -50)",
+      "Bash(curl -s -X POST \"https://fkwczudzzmigxwejfmap.supabase.co/rest/v1/comments\" -H \"apikey: sb_publishable_9EMtJ7eG_kTBkO7ChoyPQA_rVDFt4RO\" -H \"Authorization: Bearer sb_publishable_9EMtJ7eG_kTBkO7ChoyPQA_rVDFt4RO\" -H \"Content-Type: application/json\" -d '{\"username\":\"test\",\"content\":\"Test comment\"}' 2>&1)",
+      "Bash(cd \"C:/Users/yason/Rileys App\" && npm install pg --silent 2>&1 && echo \"✓ pg module installed\")",
+      "Bash(start \"\" \"C:/Users/yason/Rileys App/setup.html\")",
+      "Bash(curl -s -X POST \"https://api.supabase.com/v1/projects\" \\\\\n  -H \"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZrd2N6dWR6em1pZ3h3ZWpmbWFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY2OTI3MzIsImV4cCI6MjA1MjI2ODczMn0.wS_jqCQh8pUXx4P0j5Y-8oG8Z5F4J-3vQ7X-0Ks8-8\" \\\\\n  -H \"Content-Type: application/json\" 2>&1 | head -20)",
+      "Bash(curl -s \"https://api.github.com/repos/yeahsonhan-AGI/Peter-Steinberger-Landing-Page-Learning-Material-/commits/main\" 2>&1 | head -50)",
+      "Bash(curl -s \"https://peter-steinberger.vercel.app\" --max-time 15 2>&1 | head -50)"
+    ]
+  }
+}
