@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In · Peter Steinberger</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            background-color: #fefefe;
+            color: #1a1a1a;
+            line-height: 1.8;
+            font-size: 19px;
+            font-weight: 300;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(ellipse at 20% 30%, rgba(0,0,0,0.008) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(0,0,0,0.006) 0%, transparent 50%),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 80px 40px 120px;
+        }
+
+        .back-link {
+            display: inline-block;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: #888;
+            text-decoration: none;
+            margin-bottom: 60px;
+            letter-spacing: 0.1em;
+        }
+
+        .back-link:hover {
+            color: #1a1a1a;
+        }
+
+        .page-title {
+            font-size: 38px;
+            font-weight: 300;
+            letter-spacing: 0.02em;
+            margin-bottom: 50px;
+        }
+
+        .tab-container {
+            margin-bottom: 40px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 30px;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .tab {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            padding-bottom: 12px;
+            cursor: pointer;
+            color: #888;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .tab.active {
+            color: #1a1a1a;
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #1a1a1a;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 17px;
+            padding: 12px 0;
+            border: none;
+            border-bottom: 1px solid rgba(0,0,0,0.15);
+            background: transparent;
+            color: #1a1a1a;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #1a1a1a;
+        }
+
+        input::placeholder {
+            color: #aaa;
+        }
+
+        .btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 14px 32px;
+            background: #1a1a1a;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            margin-top: 16px;
+        }
+
+        .btn:hover {
+            background: #333;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        .error {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: #c44;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        .success {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: #4a4;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .success.show {
+            display: block;
+        }
+
+        .form-panel {
+            display: none;
+        }
+
+        .form-panel.active {
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 60px 24px 80px;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Back</a>
+
+        <h1 class="page-title">Sign In</h1>
+
+        <div class="tab-container">
+            <div class="tabs">
+                <div class="tab active" data-tab="signin">Sign In</div>
+                <div class="tab" data-tab="signup">Sign Up</div>
+            </div>
+        </div>
+
+        <!-- Sign In Form -->
+        <div class="form-panel active" id="signin-panel">
+            <form id="signin-form">
+                <div class="form-group">
+                    <label for="signin-email">Email</label>
+                    <input type="email" id="signin-email" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="signin-password">Password</label>
+                    <input type="password" id="signin-password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn">Sign In</button>
+                <p class="error" id="signin-error"></p>
+                <p class="success" id="signin-success">Signed in successfully! Redirecting...</p>
+            </form>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div class="form-panel" id="signup-panel">
+            <form id="signup-form">
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" placeholder="Min. 6 characters" required minlength="6">
+                </div>
+                <button type="submit" class="btn">Create Account</button>
+                <p class="error" id="signup-error"></p>
+                <p class="success" id="signup-success">Account created! Please check your email to confirm.</p>
+            </form>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        // Tab switching
+        const tabs = document.querySelectorAll('.tab');
+        const panels = document.querySelectorAll('.form-panel');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                panels.forEach(p => p.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab + '-panel').classList.add('active');
+            });
+        });
+
+        // Get redirect URL from query params
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirectUrl = urlParams.get('redirect') || 'chat.html';
+
+        // Sign in form handler
+        document.getElementById('signin-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('signin-email').value;
+            const password = document.getElementById('signin-password').value;
+            const errorEl = document.getElementById('signin-error');
+            const successEl = document.getElementById('signin-success');
+
+            errorEl.classList.remove('show');
+            successEl.classList.remove('show');
+
+            try {
+                await Auth.signIn(email, password);
+                successEl.classList.add('show');
+                setTimeout(() => {
+                    window.location.href = redirectUrl;
+                }, 1000);
+            } catch (error) {
+                errorEl.textContent = error.message || 'Sign in failed. Please check your credentials.';
+                errorEl.classList.add('show');
+            }
+        });
+
+        // Sign up form handler
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const errorEl = document.getElementById('signup-error');
+            const successEl = document.getElementById('signup-success');
+
+            errorEl.classList.remove('show');
+            successEl.classList.remove('show');
+
+            try {
+                await Auth.signUp(email, password);
+                successEl.classList.add('show');
+                document.getElementById('signup-form').reset();
+            } catch (error) {
+                errorEl.textContent = error.message || 'Sign up failed. Please try again.';
+                errorEl.classList.add('show');
+            }
+        });
+
+        // Check if already signed in
+        (async () => {
+            const authenticated = await Auth.isAuthenticated();
+            if (authenticated) {
+                window.location.href = redirectUrl;
+            }
+        })();
+    </script>
+</body>
+</html>

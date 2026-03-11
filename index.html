@@ -234,6 +234,199 @@
             font-size: 17px;
         }
 
+        /* Chat link special styling */
+        .chat-link {
+            color: #2563eb;
+        }
+
+        .chat-link::after {
+            background: #2563eb;
+        }
+
+        /* Comments section */
+        .comments-section {
+            margin-top: 80px;
+            padding-top: 60px;
+            border-top: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .comment-form {
+            margin-bottom: 40px;
+        }
+
+        #comment-input {
+            width: 100%;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 17px;
+            padding: 16px 0;
+            border: none;
+            border-bottom: 1px solid rgba(0,0,0,0.15);
+            background: transparent;
+            color: #1a1a1a;
+            transition: border-color 0.3s ease;
+            resize: none;
+            min-height: 60px;
+        }
+
+        #comment-input:focus {
+            outline: none;
+            border-color: #1a1a1a;
+        }
+
+        #comment-input::placeholder {
+            color: #aaa;
+        }
+
+        #comment-input:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .comment-submit-btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 10px 24px;
+            background: #1a1a1a;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 16px;
+        }
+
+        .comment-submit-btn:hover:not(:disabled) {
+            background: #333;
+        }
+
+        .comment-submit-btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .comment {
+            padding-bottom: 24px;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .comment:last-child {
+            border-bottom: none;
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .comment-username {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            color: #1a1a1a;
+        }
+
+        .comment-date {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            color: #999;
+        }
+
+        .comment-delete {
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            color: #999;
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: auto;
+            transition: color 0.3s ease;
+        }
+
+        .comment-delete:hover {
+            color: #c44;
+        }
+
+        .comment-content {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #3a3a3a;
+            margin-bottom: 12px;
+            white-space: pre-wrap;
+        }
+
+        .comment-reactions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .reaction-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: #888;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 4px 8px;
+        }
+
+        .reaction-btn:hover {
+            color: #1a1a1a;
+        }
+
+        .reaction-btn.active {
+            color: #1a1a1a;
+        }
+
+        .reaction-icon {
+            font-size: 14px;
+        }
+
+        .no-comments {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: #999;
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .load-more-container {
+            text-align: center;
+            margin-top: 32px;
+        }
+
+        #load-more-comments {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 10px 24px;
+            background: transparent;
+            color: #1a1a1a;
+            border: 1px solid rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        #load-more-comments:hover {
+            background: rgba(0,0,0,0.03);
+            border-color: rgba(0,0,0,0.4);
+        }
+
         .footer {
             margin-top: 100px;
             padding-top: 40px;
@@ -275,6 +468,14 @@
 
         .external-link:hover::before {
             opacity: 1;
+        }
+
+        .signin-link {
+            font-size: 11px;
+        }
+
+        .signout-link {
+            font-size: 11px;
         }
 
         @media (max-width: 600px) {
@@ -326,6 +527,7 @@
         <section class="content-section">
             <p class="section-label">Explore</p>
             <nav class="nav-links">
+                <span class="nav-item"><a href="chat.html" class="link chat-link">✦ Chat with Peter</a></span>
                 <span class="nav-item"><a href="about.html" class="link">About</a></span>
                 <span class="nav-item"><a href="pspdfkit.html" class="link">PSPDFKit</a></span>
                 <span class="nav-item"><a href="openclaw.html" class="link">OpenClaw</a></span>
@@ -335,8 +537,34 @@
             </nav>
         </section>
 
+        <!-- Comments Section -->
+        <section class="comments-section" id="comments-section">
+            <p class="section-label">Comments</p>
+
+            <form class="comment-form" id="comment-form">
+                <textarea
+                    id="comment-input"
+                    placeholder="Share your thoughts..."
+                    disabled
+                ></textarea>
+                <button type="submit" class="comment-submit-btn" id="comment-submit" disabled>Sign in to comment</button>
+            </form>
+
+            <div class="comments-list" id="comments-list">
+                <p class="no-comments">Loading comments...</p>
+            </div>
+
+            <div class="load-more-container">
+                <button id="load-more-comments" style="display: none;">Load More</button>
+            </div>
+        </section>
+
         <footer class="footer">
             <p class="footer-text">
+                <a href="signin.html" class="social-link signin-link external-link">Sign In</a>
+                <span class="signout-link social-link" style="display: none;">· <a href="#" onclick="Auth.signOut(); return false;" class="social-link">Sign Out</a></span>
+                <span class="user-display" style="display: none;"></span>
+                <br><br>
                 <a href="https://x.com/steipete" target="_blank" class="social-link external-link">X/Twitter</a> ·
                 <a href="https://github.com/steipete" target="_blank" class="social-link external-link">GitHub</a> ·
                 <a href="https://steipete.me" target="_blank" class="social-link external-link">Blog</a>
@@ -344,7 +572,10 @@
         </footer>
     </div>
 
+    <script src="auth.js"></script>
+    <script src="comments.js"></script>
     <script>
+        // Page transition for internal links
         document.querySelectorAll('.link').forEach(link => {
             link.addEventListener('click', function(e) {
                 const href = this.getAttribute('href');
@@ -358,6 +589,11 @@
                     }, 400);
                 }
             });
+        });
+
+        // Initialize comments after auth is ready
+        document.addEventListener('DOMContentLoaded', async () => {
+            await Auth.updateAuthUI();
         });
     </script>
 </body>
