@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Setup</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            margin-top: 0;
+        }
+        .step {
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 6px;
+            border-left: 4px solid #3ecf8e;
+        }
+        .step h3 {
+            margin-top: 0;
+        }
+        button {
+            background: #3ecf8e;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #34b27b;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        .copy-btn {
+            background: #555;
+            font-size: 12px;
+            padding: 8px 16px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Supabase 数据库一键设置</h1>
+
+        <div class="step">
+            <h3>步骤 1: 验证连接</h3>
+            <p>点击下方按钮验证 Supabase 连接是否正常</p>
+            <button onclick="testConnection()">测试连接</button>
+            <div id="connection-status" class="status"></div>
+        </div>
+
+        <div class="step">
+            <h3>步骤 2: 创建数据库表</h3>
+            <p>由于浏览器限制，需要手动在 Supabase 控制台执行 SQL。点击下方按钮打开 SQL 编辑器：</p>
+            <button onclick="openSQLEditor()">打开 SQL 编辑器</button>
+            <div class="status info">
+                <strong>然后执行以下步骤：</strong>
+                <ol>
+                    <li>复制下面的 SQL 代码</li>
+                    <li>粘贴到 SQL 编辑器</li>
+                    <li>点击 <strong>Run</strong> 按钮</li>
+                </ol>
+            </div>
+            <pre id="sql-code">-- Enable UUID extension
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- Comments table
+CREATE TABLE IF NOT EXISTS comments (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  username TEXT NOT NULL,
+  content TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Comment reactions table
+CREATE TABLE IF NOT EXISTS comment_reactions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  comment_id UUID REFERENCES comments(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  reaction_type TEXT CHECK (reaction_type IN ('like', 'dislike')),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(comment_id, user_id)
+);
+
+-- Create indexes
+CREATE INDEX IF NOT EXISTS idx_comments_created ON comments(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_reactions_comment ON comment_reactions(comment_id);
+CREATE INDEX IF NOT EXISTS idx_reactions_user ON comment_reactions(user_id);
+
+-- Enable Row Level Security
+ALTER TABLE comments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE comment_reactions ENABLE ROW LEVEL SECURITY;
+
+-- Comments RLS policies
+CREATE POLICY "Comments are viewable by everyone" ON comments FOR SELECT USING (true);
+CREATE POLICY "Authenticated users can insert comments" ON comments FOR INSERT TO authenticated WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Users can update own comments" ON comments FOR UPDATE TO authenticated USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Users can delete own comments" ON comments FOR DELETE TO authenticated USING (auth.uid() = user_id);
+
+-- Reactions RLS policies
+CREATE POLICY "Reactions are viewable by everyone" ON comment_reactions FOR SELECT USING (true);
+CREATE POLICY "Authenticated users can insert reactions" ON comment_reactions FOR INSERT TO authenticated WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Users can update own reactions" ON comment_reactions FOR UPDATE TO authenticated USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Users can delete own reactions" ON comment_reactions FOR DELETE TO authenticated USING (auth.uid() = user_id);</pre>
+            <button class="copy-btn" onclick="copySQL()">复制 SQL 代码</button>
+        </div>
+
+        <div class="step">
+            <h3>步骤 3: 验证表创建</h3>
+            <p>执行完 SQL 后，点击下方按钮验证表是否创建成功</p>
+            <button onclick="verifyTables()">验证表</button>
+            <div id="tables-status" class="status"></div>
+        </div>
+
+        <div class="step">
+            <h3>步骤 4: 部署 Edge Function</h3>
+            <p>点击下方按钮打开 Edge Functions 页面，然后手动创建函数</p>
+            <button onclick="openEdgeFunctions()">打开 Edge Functions</button>
+            <div class="status info">
+                <strong>创建步骤：</strong>
+                <ol>
+                    <li>点击 <strong>New Function</strong></li>
+                    <li>名称输入: <code>chat-with-peter</code></li>
+                    <li>复制 <code>supabase/functions/chat-with-peter/index.ts</code> 的内容</li>
+                    <li>粘贴到编辑器</li>
+                    <li>点击 <strong>Deploy</strong></li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>步骤 5: 完成！</h3>
+            <p>所有设置完成后，访问：</p>
+            <p><a href="https://peter-steinberger.vercel.app" target="_blank" style="color: #3ecf8e;">https://peter-steinberger.vercel.app</a></p>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://fkwczudzzmigxwejfmap.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_9EMtJ7eG_kTBkO7ChoyPQA_rVDFt4RO';
+
+        function showStatus(elementId, message, type) {
+            const el = document.getElementById(elementId);
+            el.textContent = message;
+            el.className = 'status ' + type;
+        }
+
+        async function testConnection() {
+            showStatus('connection-status', '测试中...', 'info');
+
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/`, {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                });
+
+                if (response.ok || response.status === 404) {
+                    showStatus('connection-status', '✅ 连接成功！', 'success');
+                } else {
+                    showStatus('connection-status', '❌ 连接失败: ' + response.status, 'error');
+                }
+            } catch (error) {
+                showStatus('connection-status', '❌ 连接错误: ' + error.message, 'error');
+            }
+        }
+
+        function openSQLEditor() {
+            window.open('https://supabase.com/dashboard/project/fkwczudzzmigxwejfmap/sql/new', '_blank');
+        }
+
+        function copySQL() {
+            const sqlCode = document.getElementById('sql-code').textContent;
+            navigator.clipboard.writeText(sqlCode).then(() => {
+                alert('SQL 代码已复制到剪贴板！');
+            }).catch(() => {
+                // Fallback
+                const textarea = document.createElement('textarea');
+                textarea.value = sqlCode;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert('SQL 代码已复制到剪贴板！');
+            });
+        }
+
+        async function verifyTables() {
+            showStatus('tables-status', '验证中...', 'info');
+
+            try {
+                // Check comments table
+                const commentsRes = await fetch(`${SUPABASE_URL}/rest/v1/comments?limit=1`, {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                });
+
+                // Check reactions table
+                const reactionsRes = await fetch(`${SUPABASE_URL}/rest/v1/comment_reactions?limit=1`, {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                });
+
+                if (commentsRes.ok && reactionsRes.ok) {
+                    showStatus('tables-status', '✅ 表创建成功！所有设置完成。', 'success');
+                } else if (commentsRes.status === 404 || reactionsRes.status === 404) {
+                    showStatus('tables-status', '❌ 表不存在，请先执行 SQL 创建表', 'error');
+                } else {
+                    showStatus('tables-status', '⚠️ 表状态: comments(' + commentsRes.status + ') reactions(' + reactionsRes.status + ')', 'info');
+                }
+            } catch (error) {
+                showStatus('tables-status', '❌ 验证错误: ' + error.message, 'error');
+            }
+        }
+
+        function openEdgeFunctions() {
+            window.open('https://supabase.com/dashboard/project/fkwczudzzmigxwejfmap/functions', '_blank');
+        }
+
+        // Auto-test connection on page load
+        window.onload = function() {
+            testConnection();
+        };
+    </script>
+</body>
+</html>
