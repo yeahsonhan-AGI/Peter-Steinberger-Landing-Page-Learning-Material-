@@ -38,50 +38,18 @@
             scroll-behavior: smooth;
         }
 
-        /* CSS Variables for theming - defined early */
-        :root {
-            --bg-color: #fefefe;
-            --text-color: #1a1a1a;
-            --text-secondary: #666;
-            --text-tertiary: #888;
-            --border-color: rgba(0,0,0,0.08);
-            --border-strong: rgba(0,0,0,0.15);
-            --card-bg: #fff;
-            --shadow-color: rgba(0,0,0,0.08);
-            --input-bg: transparent;
-            --hover-bg: rgba(0,0,0,0.03);
-            --reaction-color: #888;
-            --link-blue: #2563eb;
-        }
-
-        [data-theme="dark"] {
-            --bg-color: #1a1a1a;
-            --text-color: #f5f5f5;
-            --text-secondary: #999;
-            --text-tertiary: #777;
-            --border-color: rgba(255,255,255,0.08);
-            --border-strong: rgba(255,255,255,0.2);
-            --card-bg: #252525;
-            --shadow-color: rgba(0,0,0,0.3);
-            --input-bg: rgba(255,255,255,0.05);
-            --hover-bg: rgba(255,255,255,0.05);
-            --reaction-color: #999;
-            --link-blue: #60a5fa;
-        }
-
         body {
             font-family: 'Cormorant Garamond', Georgia, serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: #fefefe;
+            color: #1a1a1a;
             line-height: 1.8;
             font-size: 19px;
             font-weight: 300;
             min-height: 100vh;
             overflow-x: hidden;
-            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Subtle paper texture - light mode */
+        /* Subtle paper texture */
         body::before {
             content: '';
             position: fixed;
@@ -96,15 +64,6 @@
             opacity: 0.4;
             pointer-events: none;
             z-index: -1;
-        }
-
-        /* Dark mode texture - use light overlays */
-        [data-theme="dark"] body::before {
-            background-image:
-                radial-gradient(ellipse at 20% 30%, rgba(255,255,255,0.02) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 70%, rgba(255,255,255,0.015) 0%, transparent 50%),
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            opacity: 0.3;
         }
 
         .container {
@@ -908,63 +867,35 @@
         .social-link { color: var(--text-secondary); }
         .social-link:hover { color: var(--text-color); }
         .signin-link, .signout-link { color: var(--text-secondary); }
-        #comment-input { background: var(--input-bg); color: var(--text-color); border-bottom-color: var(--border-strong); }
-        #comment-input:focus { border-color: var(--text-color); }
-        #comment-input::placeholder { color: var(--text-tertiary); }
-        .comment-submit-btn { background: var(--text-color); color: var(--bg-color); }
-        .comment-submit-btn:hover:not(:disabled) { background: var(--text-secondary); }
-        #load-more-comments { color: var(--text-color); border-color: var(--border-color); }
-        #load-more-comments:hover { background: var(--hover-bg); border-color: var(--border-strong); }
-        .reply-input { background: var(--card-bg); color: var(--text-color); border-color: var(--border-color); }
-        .reply-input:focus { border-color: var(--border-strong); }
-        .reply-cancel { color: var(--text-secondary); }
-        .reply-submit { background: var(--text-color); color: var(--bg-color); }
-        .reply-submit:hover:not(:disabled) { background: var(--text-secondary); }
-        .comment-username, .reply-username { color: var(--text-color); }
-        .comment-date, .reply-date { color: var(--text-tertiary); }
-        .comment-delete, .reply-delete { color: var(--text-tertiary); }
+        #comment-input { background: transparent; color: #1a1a1a; border-bottom-color: rgba(0,0,0,0.15); }
+        #comment-input:focus { border-color: #1a1a1a; }
+        #comment-input::placeholder { color: #888; }
+        .comment-submit-btn { background: #1a1a1a; color: #fff; }
+        .comment-submit-btn:hover:not(:disabled) { background: #333; }
+        #load-more-comments { color: #1a1a1a; border-color: rgba(0,0,0,0.2); }
+        #load-more-comments:hover { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.4); }
+        .reply-input { background: #fff; color: #1a1a1a; border-color: rgba(0,0,0,0.1); }
+        .reply-input:focus { border-color: rgba(0,0,0,0.3); }
+        .reply-cancel { color: #666; }
+        .reply-submit { background: #1a1a1a; color: #fff; }
+        .reply-submit:hover:not(:disabled) { background: #333; }
+        .comment-username, .reply-username { color: #1a1a1a; }
+        .comment-date, .reply-date { color: #888; }
+        .comment-delete, .reply-delete { color: #888; }
         .comment-delete:hover, .reply-delete:hover { color: #c44; }
-        .reply-form { background: var(--hover-bg); }
-        .comment-replies-container { border-left-color: var(--border-color); }
-        .reply-item { border-bottom-color: var(--border-color); }
-        .comment { border-bottom-color: var(--border-color); }
-        .footer { border-top-color: var(--border-color); }
-        .comments-section { border-top-color: var(--border-color); }
-        .contact-popover { background: var(--card-bg); border-color: var(--border-color); box-shadow: 0 4px 20px var(--shadow-color); }
-        .contact-popover::after { background: var(--card-bg); border-right-color: var(--border-color); border-bottom-color: var(--border-color); }
-        .popover-item:not(:last-child) { border-bottom-color: var(--border-color); }
-        .popover-label { color: var(--text-tertiary); }
-        .popover-value { color: var(--text-color); }
-        .popover-link { color: var(--text-color); }
-        .popover-link:hover { color: var(--link-blue); }
-
-        /* Tagline */
-        .tagline {
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-top: 8px;
-            font-weight: 300;
-        }
-
-        /* Theme toggle button */
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            opacity: 0.4;
-            transition: opacity 0.3s ease;
-            z-index: 1000;
-            color: var(--text-color);
-        }
-
-        .theme-toggle:hover {
-            opacity: 1;
-        }
+        .reply-form { background: rgba(0,0,0,0.02); }
+        .comment-replies-container { border-left-color: rgba(0,0,0,0.06); }
+        .reply-item { border-bottom-color: rgba(0,0,0,0.03); }
+        .comment { border-bottom-color: rgba(0,0,0,0.04); }
+        .footer { border-top-color: rgba(0,0,0,0.06); }
+        .comments-section { border-top-color: rgba(0,0,0,0.08); }
+        .contact-popover { background: #fff; border-color: rgba(0,0,0,0.1); box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .contact-popover::after { background: #fff; border-right-color: rgba(0,0,0,0.1); border-bottom-color: rgba(0,0,0,0.1); }
+        .popover-item:not(:last-child) { border-bottom-color: rgba(0,0,0,0.04); }
+        .popover-label { color: #888; }
+        .popover-value { color: #1a1a1a; }
+        .popover-link { color: #1a1a1a; }
+        .popover-link:hover { color: #2563eb; }
 
         /* Reading progress bar */
         .reading-progress {
@@ -972,7 +903,7 @@
             top: 0;
             left: 0;
             height: 2px;
-            background: var(--text-color);
+            background: #1a1a1a;
             width: 0%;
             z-index: 1001;
             transition: width 0.1s ease;
@@ -985,8 +916,8 @@
             right: 20px;
             width: 40px;
             height: 40px;
-            background: var(--hover-bg);
-            border: 1px solid var(--border-color);
+            background: rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.1);
             border-radius: 50%;
             font-size: 18px;
             cursor: pointer;
@@ -994,7 +925,7 @@
             visibility: hidden;
             transition: all 0.3s ease;
             z-index: 100;
-            color: var(--text-color);
+            color: #1a1a1a;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1006,7 +937,7 @@
         }
 
         .back-to-top:hover {
-            background: var(--hover-bg);
+            background: rgba(0,0,0,0.1);
             transform: scale(1.05);
         }
 
@@ -1016,8 +947,8 @@
             bottom: 80px;
             left: 50%;
             transform: translateX(-50%) translateY(20px);
-            background: var(--text-color);
-            color: var(--bg-color);
+            background: #1a1a1a;
+            color: #fff;
             padding: 12px 24px;
             border-radius: 8px;
             font-family: 'Inter', sans-serif;
@@ -1081,11 +1012,6 @@
 <body>
     <!-- Reading Progress Bar -->
     <div class="reading-progress" id="readingProgress"></div>
-
-    <!-- Theme Toggle -->
-    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-        <span class="theme-icon">◐</span>
-    </button>
 
     <!-- Back to Top Button -->
     <button id="backToTop" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">↑</button>
@@ -1199,10 +1125,6 @@
         // Initialize comments after auth is ready
         document.addEventListener('DOMContentLoaded', async () => {
             await Auth.updateAuthUI();
-
-            // Initialize theme
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
         });
 
         // Toggle contact popover
@@ -1221,18 +1143,6 @@
                 popover.classList.remove('active');
             }
         });
-
-        // ==================== NEW FUNCTIONS ====================
-
-        // Theme toggle
-        function toggleTheme() {
-            const html = document.documentElement;
-            const current = html.getAttribute('data-theme');
-            const next = current === 'dark' ? 'light' : 'dark';
-            html.setAttribute('data-theme', next);
-            localStorage.setItem('theme', next);
-            showToast(next === 'dark' ? 'Dark mode enabled' : 'Light mode enabled');
-        }
 
         // Reading progress
         window.addEventListener('scroll', () => {
