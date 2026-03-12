@@ -736,6 +736,21 @@
             font-size: 11px;
         }
 
+        /* Creator credit - subtle */
+        .creator-credit {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 300;
+            color: rgba(0,0,0,0.12);
+            cursor: default;
+            z-index: 100;
+            user-select: none;
+            pointer-events: none;
+        }
+
         @media (max-width: 600px) {
             .container {
                 padding: 60px 24px 80px;
@@ -872,5 +887,7 @@
             await Auth.updateAuthUI();
         });
     </script>
+
+    <div class="creator-credit">Yason Han 制作</div>
 </body>
 </html>
