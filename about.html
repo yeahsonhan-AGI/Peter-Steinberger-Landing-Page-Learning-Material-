@@ -185,6 +185,93 @@
             color: #444;
         }
 
+        /* Timeline Section */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin-top: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(0,0,0,0.1);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -45px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #1a1a1a;
+        }
+
+        .timeline-year {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 4px;
+        }
+
+        .timeline-content h3 {
+            font-size: 18px;
+            font-weight: 400;
+            margin-bottom: 4px;
+        }
+
+        .timeline-content p {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Principles Section */
+        .principles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .principle {
+            padding: 24px;
+            background: rgba(0,0,0,0.02);
+            border-radius: 8px;
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .principle h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .principle p {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
         @media (max-width: 600px) {
             .container {
                 padding: 60px 24px 80px;
@@ -261,6 +348,51 @@
                     where he now works on next-generation personal agents — bringing his vision
                     of private, local AI assistance to the forefront of the industry.
                 </p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-heading">Journey</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">2023–Present</div>
+                    <div class="timeline-content">
+                        <h3>OpenAI</h3>
+                        <p>Working on next-generation personal agents at the forefront of AI.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2022–2023</div>
+                    <div class="timeline-content">
+                        <h3>OpenClaw</h3>
+                        <p>Created an open-source AI agent framework focused on local-first, private AI assistance.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2010–2023</div>
+                    <div class="timeline-content">
+                        <h3>PSPDFKit</h3>
+                        <p>Founder · Bootstrapped from Vienna to 60+ employees, serving global customers with PDF SDKs.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-heading">Principles</h2>
+            <div class="principles">
+                <div class="principle">
+                    <h3>Bootstrapping First</h3>
+                    <p>Building sustainable businesses without external funding maintains vision and control.</p>
+                </div>
+                <div class="principle">
+                    <h3>Privacy Matters</h3>
+                    <p>Technology should respect user privacy through local-first design.</p>
+                </div>
+                <div class="principle">
+                    <h3>Developer Experience</h3>
+                    <p>Tools should be a joy to use, not a burden to manage.</p>
+                </div>
             </div>
         </section>
     </div>
