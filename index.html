@@ -234,6 +234,32 @@
             font-size: 17px;
         }
 
+        /* Chat CTA - 单独突出的样式 */
+        .chat-cta {
+            display: block;
+            width: 100%;
+            padding: 18px 32px;
+            text-align: center;
+            border: 1px solid #1a1a1a;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .chat-cta:hover {
+            background: #1a1a1a;
+        }
+
+        .chat-cta:hover .chat-cta-text {
+            color: #fff;
+        }
+
+        .chat-cta-text {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 18px;
+            color: #1a1a1a;
+            transition: color 0.3s ease;
+        }
+
         /* Chat link special styling */
         .chat-link {
             color: #2563eb;
@@ -241,6 +267,119 @@
 
         .chat-link::after {
             background: #2563eb;
+        }
+
+        /* Subtle for less important links */
+        .nav-links .link.subtle {
+            color: #666;
+        }
+
+        .nav-links .link.subtle::after {
+            background: #666;
+        }
+
+        .nav-links .link.subtle:hover {
+            color: #1a1a1a;
+        }
+
+        /* Explore - 极简列表设计 */
+        .explore-section {
+            margin: 50px 0;
+        }
+
+        .explore-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .explore-link {
+            display: block;
+            font-size: 17px;
+            color: #1a1a1a;
+            text-decoration: none;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+            transition: color 0.2s ease;
+            position: relative;
+        }
+
+        .explore-link:hover {
+            color: #000;
+        }
+
+        .explore-link::after {
+            content: '→';
+            position: absolute;
+            right: 0;
+            opacity: 0;
+            transform: translateX(-8px);
+            transition: all 0.2s ease;
+            color: #999;
+        }
+
+        .explore-link:hover::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .explore-link-main {
+            font-size: 20px;
+            font-weight: 400;
+            padding: 18px 0;
+        }
+
+        .explore-link-quiet {
+            color: #888;
+        }
+
+        .explore-link-quiet:hover {
+            color: #1a1a1a;
+        }
+
+        .explore-group {
+            padding: 18px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .explore-label {
+            font-size: 17px;
+            color: #1a1a1a;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .explore-sub {
+            font-size: 15px;
+            color: #666;
+            text-decoration: none;
+            margin-right: 20px;
+            transition: color 0.2s ease;
+        }
+
+        .explore-sub:hover {
+            color: #1a1a1a;
+        }
+
+        /* Mobile responsive */
+        .nav-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-group .group-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            color: #999;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .nav-group .group-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
         }
 
         /* Comments section */
@@ -353,6 +492,125 @@
         }
 
         .comment-delete:hover {
+            color: #c44;
+        }
+
+        /* Reply form */
+        .reply-form {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(0,0,0,0.02);
+            border-radius: 8px;
+        }
+
+        .reply-input {
+            width: 100%;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 15px;
+            padding: 10px;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 6px;
+            background: #fff;
+            resize: vertical;
+            min-height: 50px;
+        }
+
+        .reply-input:focus {
+            outline: none;
+            border-color: rgba(0,0,0,0.3);
+        }
+
+        .reply-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .reply-submit, .reply-cancel {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .reply-submit {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        .reply-submit:hover:not(:disabled) {
+            background: #333;
+        }
+
+        .reply-submit:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        .reply-cancel {
+            background: transparent;
+            color: #666;
+        }
+
+        .reply-cancel:hover {
+            background: rgba(0,0,0,0.05);
+        }
+
+        /* Replies container */
+        .comment-replies-container {
+            margin-top: 12px;
+            padding-left: 16px;
+            border-left: 2px solid rgba(0,0,0,0.06);
+        }
+
+        .reply-item {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .reply-item:last-child {
+            border-bottom: none;
+        }
+
+        .reply-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .reply-username {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            color: #1a1a1a;
+        }
+
+        .reply-date {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            color: #999;
+        }
+
+        .reply-content {
+            font-size: 15px;
+            color: #3a3a3a;
+            line-height: 1.6;
+        }
+
+        .reply-delete {
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            color: #999;
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .reply-delete:hover {
             color: #c44;
         }
 
@@ -497,9 +755,11 @@
                 font-size: 17px;
             }
 
-            .nav-links {
-                flex-direction: column;
-                gap: 16px;
+            .explore-sub {
+                display: block;
+                margin-right: 0;
+                margin-bottom: 8px;
+                margin-left: 16px;
             }
         }
     </style>
@@ -524,17 +784,32 @@
             </p>
         </section>
 
+        <!-- Chat CTA -单独突出 -->
         <section class="content-section">
-            <p class="section-label">Explore</p>
-            <nav class="nav-links">
-                <span class="nav-item"><a href="chat.html" class="link chat-link">✦ Chat with Peter</a></span>
-                <span class="nav-item"><a href="about.html" class="link">About</a></span>
-                <span class="nav-item"><a href="pspdfkit.html" class="link">PSPDFKit</a></span>
-                <span class="nav-item"><a href="openclaw.html" class="link">OpenClaw</a></span>
-                <span class="nav-item"><a href="openai.html" class="link">OpenAI</a></span>
-                <span class="nav-item"><a href="videos.html" class="link">Videos & Talks</a></span>
-                <span class="nav-item"><a href="contact.html" class="link">Contact</a></span>
-            </nav>
+            <a href="chat.html" class="chat-cta">
+                <span class="chat-cta-text">✦ Chat with Peter</span>
+            </a>
+        </section>
+
+        <!-- Explore - 极简列表设计 -->
+        <section class="explore-section">
+            <div class="explore-list">
+                <!-- About -->
+                <a href="about.html" class="explore-link explore-link-main">About</a>
+
+                <!-- Journey 分组 -->
+                <div class="explore-group">
+                    <span class="explore-label">Journey</span>
+                    <a href="openai.html" class="explore-sub">OpenAI</a>
+                    <a href="openclaw.html" class="explore-sub">OpenClaw</a>
+                    <a href="pspdfkit.html" class="explore-sub">PSPDFKit</a>
+                </div>
+
+                <!-- 其他 -->
+                <a href="videos.html" class="explore-link">Videos & Talks</a>
+                <a href="hobbies.html" class="explore-link">Hobbies</a>
+                <a href="contact.html" class="explore-link explore-link-quiet">Contact</a>
+            </div>
         </section>
 
         <!-- Comments Section -->
@@ -574,6 +849,7 @@
 
     <script src="auth.js"></script>
     <script src="comments.js"></script>
+    <script src="sound.js"></script>
     <script>
         // Page transition for internal links
         document.querySelectorAll('.link').forEach(link => {

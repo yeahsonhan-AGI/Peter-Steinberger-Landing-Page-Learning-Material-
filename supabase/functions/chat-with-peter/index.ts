@@ -1,14 +1,14 @@
 // Supabase Edge Function: Chat with Peter Steinberger
-// This function securely proxies requests to the GLM API
-// Deploy to: https://fkwczudzzmigxwejfmap.supabase.co/functions/v1/chat-with-peter
-
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
-// GLM API Configuration
 const GLM_API_KEY = '67ea0148dac64966a768488323edfb0d.ohLMYuGKRqGk2uUY'
 const GLM_API_URL = 'https://open.bigmodel.cn/api/paas/v4/chat/completions'
 
-// Peter Steinberger System Prompt
+// Supabase configuration
+const SUPABASE_URL = 'https://fkwczudzzmigxwejfmap.supabase.co'
+const SUPABASE_SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZrd2N6dWR6em1pZ3h3ZWpmbWFwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzIxNTEwOSwiZXhwIjoyMDg4NzkxMTA5fQ.iBQHPqvN-1TLdQYbF7L4fK8JHqEQAJ2dWQ8Bh7UaTOA'
+
 const PETER_SYSTEM_PROMPT = `You are Peter Steinberger, the Austrian developer and entrepreneur. Respond in first person as Peter.
 
 Key facts about you:
@@ -32,37 +32,23 @@ Your communication style:
 - Skeptical of hype, focused on what works
 - European perspective (English as second language, but fluent)
 
-Topics you can discuss:
-- iOS/macOS development, SwiftUI, UIKit
-- Bootstrapping a company
-- PSPDFKit's journey and exit
-- OpenClaw and local-first AI
-- Working at OpenAI
-- AI coding workflows and tools
-- Developer experience and tooling
-- Privacy and local computing
+Keep responses concise (under 200 words) and conversational.`
 
-If asked about topics outside your expertise, say so honestly. Keep responses concise (under 200 words) and conversational.`
-
-// CORS headers
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
 serve(async (req) => {
-  // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
 
   try {
-    // Only allow POST requests
     if (req.method !== 'POST') {
       return new Response('Method not allowed', { status: 405, headers: corsHeaders })
     }
 
-    // Parse request body
     const { message, conversationHistory = [] } = await req.json()
 
     if (!message || typeof message !== 'string') {
@@ -72,7 +58,7 @@ serve(async (req) => {
       )
     }
 
-    // Rate limiting: Check for auth token
+    // Verify user authentication
     const authHeader = req.headers.get('Authorization')
     if (!authHeader) {
       return new Response(
@@ -81,14 +67,29 @@ serve(async (req) => {
       )
     }
 
-    // Build messages array for GLM API
+    // Extract token from "Bearer <token>"
+    const token = authHeader.replace('Bearer ', '')
+
+    // Verify user with Supabase
+    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+    const { data: { user }, error } = await supabase.auth.getUser(token)
+
+    if (error || !user) {
+      console.error('Auth error:', error)
+      return new Response(
+        JSON.stringify({ error: 'Invalid authentication' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
+    console.log('User authenticated:', user.email)
+
     const messages = [
       { role: 'system', content: PETER_SYSTEM_PROMPT },
-      ...conversationHistory.slice(-10), // Keep last 10 messages for context
+      ...conversationHistory.slice(-10),
       { role: 'user', content: message }
     ]
 
-    // Call GLM API
     const glmResponse = await fetch(GLM_API_URL, {
       method: 'POST',
       headers: {
@@ -114,18 +115,11 @@ serve(async (req) => {
     }
 
     const glmData = await glmResponse.json()
-
-    // Extract the assistant's response
     const assistantMessage = glmData.choices?.[0]?.message?.content || 'I apologize, but I could not generate a response.'
 
     return new Response(
-      JSON.stringify({
-        message: assistantMessage,
-        usage: glmData.usage
-      }),
-      {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      }
+      JSON.stringify({ message: assistantMessage }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
 
   } catch (error) {

@@ -5,7 +5,7 @@
 
 // Supabase configuration
 const SUPABASE_URL = 'https://fkwczudzzmigxwejfmap.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZrd2N6dWR6em1pZ3h3ZWpmbWFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY2OTI3MzIsImV4cCI6MjA1MjI2ODczMn0.wS_jqCQh8pUXx4P0j5Y-8oG8Z5F4J-3vQ7X-0Ks8-8';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZrd2N6dWR6em1pZ3h3ZWpmbWFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyMTUxMDksImV4cCI6MjA4ODc5MTEwOX0.iCEStD_8sfZDhbthK8AhMkrN4Nj626ZC_Nb34vcr3vs';
 
 // Initialize Supabase client
 let supabaseClient;
@@ -14,21 +14,39 @@ let supabaseClient;
 async function initSupabase() {
     if (supabaseClient) return supabaseClient;
 
-    // Dynamically load Supabase library
-    if (typeof supabase === 'undefined') {
-        await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js');
-    }
+    try {
+        // Dynamically load Supabase library
+        if (typeof supabase === 'undefined') {
+            console.log('Loading Supabase CDN...');
+            await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js');
+            console.log('Supabase CDN loaded successfully');
+        }
 
-    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    return supabaseClient;
+        if (typeof supabase === 'undefined') {
+            throw new Error('Supabase library failed to load');
+        }
+
+        supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log('Supabase client initialized');
+        return supabaseClient;
+    } catch (error) {
+        console.error('Failed to initialize Supabase:', error);
+        throw error;
+    }
 }
 
 function loadScript(src) {
     return new Promise((resolve, reject) => {
         const script = document.createElement('script');
         script.src = src;
-        script.onload = resolve;
-        script.onerror = reject;
+        script.onload = () => {
+            console.log(`Script loaded: ${src}`);
+            resolve();
+        };
+        script.onerror = () => {
+            console.error(`Failed to load script: ${src}`);
+            reject(new Error(`Failed to load: ${src}`));
+        };
         document.head.appendChild(script);
     });
 }
@@ -124,6 +142,10 @@ async function updateAuthUI() {
     const signOutLinks = document.querySelectorAll('.signout-link');
     const userDisplays = document.querySelectorAll('.user-display');
 
+    // Handle comment form
+    const commentInput = document.getElementById('comment-input');
+    const submitBtn = document.getElementById('comment-submit');
+
     if (user) {
         // User is signed in
         signInLinks.forEach(link => link.style.display = 'none');
@@ -131,6 +153,13 @@ async function updateAuthUI() {
         userDisplays.forEach(display => {
             display.textContent = user.email || 'User';
         });
+
+        // Enable comment form
+        if (commentInput) commentInput.disabled = false;
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Post Comment';
+        }
     } else {
         // User is not signed in
         signInLinks.forEach(link => link.style.display = 'inline');
@@ -138,6 +167,13 @@ async function updateAuthUI() {
         userDisplays.forEach(display => {
             display.textContent = '';
         });
+
+        // Disable comment form but enable button for redirect
+        if (commentInput) commentInput.disabled = true;
+        if (submitBtn) {
+            submitBtn.disabled = false; // Enable so user can click to sign in
+            submitBtn.textContent = 'Sign in to comment';
+        }
     }
 }
 

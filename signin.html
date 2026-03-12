@@ -287,13 +287,23 @@
             errorEl.classList.remove('show');
             successEl.classList.remove('show');
 
+            console.log('Attempting sign in with:', email);
+
             try {
-                await Auth.signIn(email, password);
+                // Initialize Supabase first
+                console.log('Initializing Supabase...');
+                await Auth.initSupabase();
+                console.log('Supabase initialized, signing in...');
+
+                const result = await Auth.signIn(email, password);
+                console.log('Sign in successful:', result);
+
                 successEl.classList.add('show');
                 setTimeout(() => {
                     window.location.href = redirectUrl;
                 }, 1000);
             } catch (error) {
+                console.error('Sign in error:', error);
                 errorEl.textContent = error.message || 'Sign in failed. Please check your credentials.';
                 errorEl.classList.add('show');
             }
@@ -310,11 +320,21 @@
             errorEl.classList.remove('show');
             successEl.classList.remove('show');
 
+            console.log('Attempting sign up with:', email);
+
             try {
-                await Auth.signUp(email, password);
+                // Initialize Supabase first
+                console.log('Initializing Supabase...');
+                await Auth.initSupabase();
+                console.log('Supabase initialized, signing up...');
+
+                const result = await Auth.signUp(email, password);
+                console.log('Sign up successful:', result);
+
                 successEl.classList.add('show');
                 document.getElementById('signup-form').reset();
             } catch (error) {
+                console.error('Sign up error:', error);
                 errorEl.textContent = error.message || 'Sign up failed. Please try again.';
                 errorEl.classList.add('show');
             }

@@ -42,7 +42,7 @@
         }
 
         .container {
-            max-width: 680px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 80px 40px 120px;
         }
@@ -65,40 +65,102 @@
             font-size: 38px;
             font-weight: 300;
             letter-spacing: 0.02em;
-            margin-bottom: 50px;
+            margin-bottom: 20px;
         }
 
+        .page-subtitle {
+            font-size: 17px;
+            color: #666;
+            margin-bottom: 60px;
+            font-style: italic;
+        }
+
+        /* Section styling */
         .content-section {
-            margin-bottom: 50px;
+            margin-bottom: 60px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .section-emoji {
+            font-size: 24px;
         }
 
         .section-heading {
             font-size: 22px;
             font-weight: 400;
-            margin-bottom: 16px;
             font-style: italic;
         }
 
-        .text {
-            font-size: 19px;
-            line-height: 1.9;
-            color: #2a2a2a;
+        .section-badge {
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 4px;
         }
 
-        .text p {
-            margin-bottom: 1.2em;
+        .badge-new {
+            background: #dcfce7;
+            color: #166534;
         }
 
-        .link {
-            display: inline-block;
-            position: relative;
+        .badge-popular {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        /* Video cards */
+        .video-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .video-card {
+            padding: 20px;
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 8px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background: rgba(255,255,255,0.5);
+        }
+
+        .video-card:hover {
+            border-color: rgba(0,0,0,0.15);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .video-card.featured {
+            border-color: rgba(37, 99, 235, 0.2);
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.03) 0%, rgba(255,255,255,0.5) 100%);
+        }
+
+        .video-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 8px;
+        }
+
+        .video-title {
+            font-size: 17px;
+            font-weight: 400;
+        }
+
+        .video-title a {
             color: #1a1a1a;
             text-decoration: none;
-            cursor: pointer;
-            transition: color 0.3s ease;
+            position: relative;
         }
 
-        .link::after {
+        .video-title a::after {
             content: '';
             position: absolute;
             left: 0;
@@ -108,94 +170,47 @@
             background: #1a1a1a;
             transform-origin: left;
             transform: scaleX(1);
+            transition: transform 0.3s ease;
         }
 
-        .link:hover {
-            color: #000;
-        }
-
-        .link:hover::after {
+        .video-title a:hover::after {
             animation: shimmer 0.6s ease-in-out infinite;
         }
 
         @keyframes shimmer {
-            0%, 100% {
-                transform: scaleX(1);
-                opacity: 1;
-            }
-            25% {
-                transform: scaleX(0.7);
-                opacity: 0.5;
-            }
-            50% {
-                transform: scaleX(1.05);
-                opacity: 1;
-            }
-            75% {
-                transform: scaleX(0.85);
-                opacity: 0.7;
-            }
-        }
-
-        .page-transition {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #fff;
-            transform: translateX(100%);
-            z-index: 9999;
-            pointer-events: none;
-        }
-
-        .page-transition.active {
-            animation: slideTransition 0.8s cubic-bezier(0.65, 0, 0.35, 1);
-        }
-
-        @keyframes slideTransition {
-            0% {
-                transform: translateX(100%);
-            }
-            50% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
-        }
-
-        .fade-in {
-            animation: fadeIn 1s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .video-item {
-            margin-bottom: 2em;
-        }
-
-        .video-title {
-            font-size: 19px;
-            margin-bottom: 4px;
+            0%, 100% { transform: scaleX(1); opacity: 1; }
+            25% { transform: scaleX(0.7); opacity: 0.5; }
+            50% { transform: scaleX(1.05); opacity: 1; }
+            75% { transform: scaleX(0.85); opacity: 0.7; }
         }
 
         .video-meta {
             font-family: 'Inter', sans-serif;
             font-size: 12px;
             color: #888;
-            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
+        .video-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            background: rgba(0,0,0,0.04);
+            border-radius: 4px;
+            font-size: 11px;
+        }
+
+        .video-description {
+            font-size: 15px;
+            color: #555;
+            margin-top: 8px;
+            line-height: 1.6;
+        }
+
+        /* Link styling */
         .external-link {
             position: relative;
             padding-right: 18px;
@@ -216,6 +231,107 @@
             opacity: 1;
         }
 
+        /* Filter tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            padding: 8px 16px;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 20px;
+            background: transparent;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-tab:hover,
+        .filter-tab.active {
+            background: #1a1a1a;
+            color: #fff;
+            border-color: #1a1a1a;
+        }
+
+        /* Topics list */
+        .topics-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .topic-item {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: #666;
+            background: rgba(0,0,0,0.03);
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+
+        /* Page transition */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            transform: translateX(100%);
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .page-transition.active {
+            animation: slideTransition 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        @keyframes slideTransition {
+            0% { transform: translateX(100%); }
+            50% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Featured highlight */
+        .featured-section {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%);
+            border: 1px solid rgba(37, 99, 235, 0.1);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 50px;
+        }
+
+        .featured-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #2563eb;
+            margin-bottom: 16px;
+        }
+
         @media (max-width: 600px) {
             .container {
                 padding: 60px 24px 80px;
@@ -225,8 +341,17 @@
                 font-size: 28px;
             }
 
-            .text {
-                font-size: 17px;
+            .video-header {
+                flex-direction: column;
+            }
+
+            .filter-tabs {
+                gap: 8px;
+            }
+
+            .filter-tab {
+                font-size: 11px;
+                padding: 6px 12px;
             }
         }
     </style>
@@ -238,85 +363,326 @@
         <a href="index.html" class="back-link">← Back</a>
 
         <h1 class="page-title">Videos & Talks</h1>
+        <p class="page-subtitle">A curated collection of presentations, interviews, and conversations spanning iOS development, entrepreneurship, and the future of AI.</p>
 
-        <section class="content-section">
-            <h2 class="section-heading">Conference Talks</h2>
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">All Topics</button>
+            <button class="filter-tab" data-filter="ai">AI & Future</button>
+            <button class="filter-tab" data-filter="entrepreneurship">Entrepreneurship</button>
+            <button class="filter-tab" data-filter="ios">iOS Development</button>
+            <button class="filter-tab" data-filter="personal">Personal Growth</button>
+        </div>
 
-            <div class="video-item">
-                <p class="video-title">
-                    <a href="https://www.youtube.com/watch?v=BFFhrJLTLhA" target="_blank" class="link external-link">SwiftUI In Production</a>
-                </p>
-                <p class="video-meta">mDevMeet 2021</p>
-            </div>
-
-            <div class="video-item">
-                <p class="video-title">
-                    <a href="https://www.youtube.com/watch?v=CwZs64AnJf8" target="_blank" class="link external-link">Bootstrapping: The Long Road to Success</a>
-                </p>
-                <p class="video-meta">Conference Talk</p>
-            </div>
-
-            <div class="video-item">
-                <p class="video-title">
-                    <a href="https://www.youtube.com/watch?v=psPNxC3G_hc" target="_blank" class="link external-link">How to bend UIKit to your will</a>
-                </p>
-                <p class="video-meta">UIKonf 2013</p>
-            </div>
-
-            <div class="video-item">
-                <p class="video-title">
-                    <a href="https://vimeo.com/503127515" target="_blank" class="link external-link">Continuous Integration for the Rest of Us</a>
-                </p>
-                <p class="video-meta">Vimeo</p>
-            </div>
-
-            <div class="video-item">
-                <p class="video-title">
-                    <a href="https://slideslive.com/38908275/keynote-1-ios-trends" target="_blank" class="link external-link">Keynote: iOS Trends</a>
-                </p>
-                <p class="video-meta">SlidesLive</p>
-            </div>
-        </section>
-
-        <section class="content-section">
-            <h2 class="section-heading">Podcasts & Interviews</h2>
-
-            <div class="video-item">
-                <p class="video-title">
-                    <a href="https://www.youtube.com/watch?v=rKzq87i4dJ8" target="_blank" class="link external-link">Lex Fridman Podcast</a>
-                </p>
-                <p class="video-meta">Conversation about OpenClaw, AI agents, and development philosophy</p>
-            </div>
-        </section>
-
-        <section class="content-section">
-            <h2 class="section-heading">Speaking Repository</h2>
-            <div class="text">
-                <p>
-                    A comprehensive list of past talks from 2013-2016 is maintained on GitHub:
-                </p>
-                <p style="margin-top: 1em;">
-                    <a href="https://github.com/steipete/speaking" target="_blank" class="link external-link">github.com/steipete/speaking</a>
-                </p>
-                <p style="margin-top: 0.5em; font-family: 'Inter', sans-serif; font-size: 12px; color: #888;">
-                    Includes links to a Vimeo Pro channel with archived conference talks
+        <!-- Featured: Latest & Must Watch -->
+        <section class="featured-section" data-category="ai personal">
+            <p class="featured-label">✨ Featured Talk</p>
+            <div class="video-card featured">
+                <div class="video-header">
+                    <h3 class="video-title">
+                        <a href="https://www.youtube.com/watch?v=z2IDQbNOS5s" target="_blank" class="external-link">You Can Just Do Things: How AI Is Transforming Software Development</a>
+                    </h3>
+                    <span class="section-badge badge-new">NEW 2025</span>
+                </div>
+                <div class="video-meta">
+                    <span>Swift Connection 2025</span>
+                    <span class="video-tag">AI</span>
+                    <span class="video-tag">Agentic Engineering</span>
+                </div>
+                <p class="video-description">
+                    The software industry has reached an inflection point. This talk explores how "agentic engineering" fundamentally changes how we build software—shifting from writing code to orchestrating intelligent agents. Learn how AI tools in 2025 enable building production software at unprecedented speed.
                 </p>
             </div>
         </section>
 
+        <!-- AI & The Future of Software -->
+        <section class="content-section" data-category="ai">
+            <div class="section-header">
+                <span class="section-emoji">🤖</span>
+                <h2 class="section-heading">AI & The Future of Software</h2>
+            </div>
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-header">
+                        <h3 class="video-title">
+                            <a href="https://www.youtube.com/watch?v=9jgcT0Fqt7U" target="_blank" class="external-link">Builders Unscripted: Peter Steinberger on AI Agents</a>
+                        </h3>
+                        <span class="section-badge badge-popular">Popular</span>
+                    </div>
+                    <div class="video-meta">
+                        <span>YouTube · 2024</span>
+                        <span class="video-tag">OpenClaw</span>
+                        <span class="video-tag">AI Agents</span>
+                    </div>
+                    <p class="video-description">
+                        Recorded prior to joining OpenAI, Peter discusses OpenClaw, local-first AI, and his philosophy on building with AI agents. Hosted by Romain Huet.
+                    </p>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-header">
+                        <h3 class="video-title">
+                            <a href="https://www.youtube.com/watch?v=TsoFrer-IOA" target="_blank" class="external-link">Software's Next Era According to OpenClaw's Creator</a>
+                        </h3>
+                    </div>
+                    <div class="video-meta">
+                        <span>YouTube · 2024</span>
+                        <span class="video-tag">AI Agents</span>
+                        <span class="video-tag">Future of Work</span>
+                    </div>
+                    <p class="video-description">
+                        A deep dive into how Peter thinks about agents and the fundamental shifts happening in software development.
+                    </p>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-header">
+                        <h3 class="video-title">
+                            <a href="https://www.youtube.com/watch?v=rKzq87i4dJ8" target="_blank" class="external-link">Lex Fridman Podcast: OpenClaw and the Future of AI Agents</a>
+                        </h3>
+                        <span class="section-badge badge-popular">Must Watch</span>
+                    </div>
+                    <div class="video-meta">
+                        <span>Lex Fridman Podcast</span>
+                        <span class="video-tag">OpenClaw</span>
+                        <span class="video-tag">Deep Learning</span>
+                    </div>
+                    <p class="video-description">
+                        Conversation about OpenClaw (the fastest-growing project in GitHub history), AI agents, and development philosophy.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Entrepreneurship & Business -->
+        <section class="content-section" data-category="entrepreneurship">
+            <div class="section-header">
+                <span class="section-emoji">🚀</span>
+                <h2 class="section-heading">Entrepreneurship & Business</h2>
+            </div>
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-header">
+                        <h3 class="video-title">
+                            <a href="https://www.youtube.com/watch?v=CwZs64AnJf8" target="_blank" class="external-link">Bootstrapping: The Long Road to Success</a>
+                        </h3>
+                    </div>
+                    <div class="video-meta">
+                        <span>Conference Talk</span>
+                        <span class="video-tag">Bootstrapping</span>
+                        <span class="video-tag">PSPDFKit</span>
+                    </div>
+                    <p class="video-description">
+                        Peter's journey from freelancer to CEO of a successful, growing international company with the deliberate choice of not taking VC money.
+                    </p>
+                </div>
+
+                <div class="video-card featured">
+                    <div class="video-header">
+                        <h3 class="video-title">
+                            <a href="https://www.youtube.com/watch?v=psPNxC3G_hc" target="_blank" class="external-link">What Nobody Tells You When Selling Your Business</a>
+                        </h3>
+                        <span class="section-badge badge-popular">Emotional</span>
+                    </div>
+                    <div class="video-meta">
+                        <span>Deep Dish Swift 2023</span>
+                        <span class="video-tag">Exit</span>
+                        <span class="video-tag">Mental Health</span>
+                    </div>
+                    <p class="video-description">
+                        A deeply personal talk about the hardest two years of Peter's life—selling PSPDFKit, burnout, identity crisis, and finding purpose after success. "I didn't expect to tear up at a tech conference, but here we are."
+                    </p>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-header">
+                        <h3 class="video-title">
+                            <a href="https://vimeo.com/503127515" target="_blank" class="external-link">Should You Seek VC Money? Panel Discussion</a>
+                        </h3>
+                    </div>
+                    <div class="video-meta">
+                        <span>Pioneers 2019</span>
+                        <span class="video-tag">VC vs Bootstrapping</span>
+                        <span class="video-tag">Startup</span>
+                    </div>
+                    <p class="video-description">
+                        Discussion about the upsides and downsides of taking VC money versus bootstrapping a business.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- iOS Development -->
+        <section class="content-section" data-category="ios">
+            <div class="section-header">
+                <span class="section-emoji">📱</span>
+                <h2 class="section-heading">iOS Development</h2>
+            </div>
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-header">
+                        <h3 class="video-title">
+                            <a href="https://www.youtube.com/watch?v=BFFhrJLTLhA" target="_blank" class="external-link">SwiftUI In Production</a>
+                        </h3>
+                    </div>
+                    <div class="video-meta">
+                        <span>mDevMeet 2021</span>
+                        <span class="video-tag">SwiftUI</span>
+                        <span class="video-tag">Production</span>
+                    </div>
+                    <p class="video-description">
+                        Shipping SwiftUI in production for PSPDFKit 10.3 while still supporting iOS 12. Learn the hacks, workarounds, and real-world challenges.
+                    </p>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-header">
+                        <h3 class="video-title">
+                            <a href="https://www.youtube.com/watch?v=psPNxC3G_hc" target="_blank" class="external-link">How to Bend UIKit to Your Will</a>
+                        </h3>
+                    </div>
+                    <div class="video-meta">
+                        <span>UIKonf 2013</span>
+                        <span class="video-tag">UIKit</span>
+                        <span class="video-tag">Advanced</span>
+                    </div>
+                    <p class="video-description">
+                        Classic deep dive into advanced UIKit techniques and customization patterns.
+                    </p>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-header">
+                        <h3 class="video-title">
+                            <a href="https://slideslive.com/38908275/keynote-1-ios-trends" target="_blank" class="external-link">Keynote: iOS Trends</a>
+                        </h3>
+                    </div>
+                    <div class="video-meta">
+                        <span>SlidesLive</span>
+                        <span class="video-tag">Trends</span>
+                        <span class="video-tag">Industry</span>
+                    </div>
+                    <p class="video-description">
+                        Keynote address discussing emerging trends in iOS development and where the industry is heading.
+                    </p>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-header">
+                        <h3 class="video-title">
+                            <a href="https://www.youtube.com/watch?v=hDH8XCJZu3Y" target="_blank" class="external-link">Continuous Integration for the Rest of Us</a>
+                        </h3>
+                    </div>
+                    <div class="video-meta">
+                        <span>iOS Conf SG 2021</span>
+                        <span class="video-tag">CI/CD</span>
+                        <span class="video-tag">Testing</span>
+                    </div>
+                    <p class="video-description">
+                        Practical CI/CD strategies for teams without dedicated infrastructure teams. Covers testing, automation, and cost considerations for bootstrapped companies.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Personal Growth & Career -->
+        <section class="content-section" data-category="personal">
+            <div class="section-header">
+                <span class="section-emoji">💡</span>
+                <h2 class="section-heading">Personal Growth & Career</h2>
+            </div>
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-header">
+                        <h3 class="video-title">
+                            <a href="https://www.youtube.com/watch?v=qyjTpzIAEkA" target="_blank" class="external-link">Full Interview: Peter Steinberger on Clawdbot & AI</a>
+                        </h3>
+                    </div>
+                    <div class="video-meta">
+                        <span>TBPN · First Public Appearance</span>
+                        <span class="video-tag">Interview</span>
+                        <span class="video-tag">Career Journey</span>
+                    </div>
+                    <p class="video-description">
+                        His first public appearance since launching Clawdbot, covering the journey from PSPDFKit to AI-powered development tools.
+                    </p>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-header">
+                        <h3 class="video-title">
+                            <a href="#" class="external-link">Building Personal Brands for Introverts</a>
+                        </h3>
+                    </div>
+                    <div class="video-meta">
+                        <span>UIKonf Keynote 2018</span>
+                        <span class="video-tag">Personal Branding</span>
+                        <span class="video-tag">Career</span>
+                    </div>
+                    <p class="video-description">
+                        How having a successful online identity opens doors. Peter shares his journey building a professional persona since 2009.
+                    </p>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-header">
+                        <h3 class="video-title">
+                            <a href="#" class="external-link">Smart Debugging - Heavy Weapons for Hard Bugs</a>
+                        </h3>
+                    </div>
+                    <div class="video-meta">
+                        <span>Conference Talk</span>
+                        <span class="video-tag">Debugging</span>
+                        <span class="video-tag">Skills</span>
+                    </div>
+                    <p class="video-description">
+                        Explore lesser-known tools and techniques to find problems faster, including unconventional bug hunting strategies.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Complete Archive -->
+        <section class="content-section">
+            <div class="section-header">
+                <span class="section-emoji">📚</span>
+                <h2 class="section-heading">Complete Archive</h2>
+            </div>
+            <div class="video-card">
+                <p style="margin-bottom: 12px;">
+                    A comprehensive list of past talks from 2013-2026 is maintained on GitHub, including links to slides, videos, and a Vimeo Pro channel with archived conference talks.
+                </p>
+                <div class="video-meta">
+                    <a href="https://github.com/steipete/speaking" target="_blank" class="external-link" style="color: #2563eb;">
+                        github.com/steipete/speaking →
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Topics Overview -->
         <section class="content-section">
             <p class="section-label" style="font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: #888;">Topics Covered</p>
-            <div class="text">
-                <p>
-                    iOS development · SwiftUI · UIKit · Bootstrapping ·
-                    Continuous Integration · PDF rendering ·
-                    Mobile development · AI agents · OpenClaw
-                </p>
+            <div class="topics-list">
+                <span class="topic-item">AI Agents</span>
+                <span class="topic-item">Agentic Engineering</span>
+                <span class="topic-item">OpenClaw</span>
+                <span class="topic-item">Bootstrapping</span>
+                <span class="topic-item">iOS Development</span>
+                <span class="topic-item">SwiftUI</span>
+                <span class="topic-item">UIKit</span>
+                <span class="topic-item">Continuous Integration</span>
+                <span class="topic-item">Entrepreneurship</span>
+                <span class="topic-item">Mental Health</span>
+                <span class="topic-item">Personal Branding</span>
+                <span class="topic-item">Career Growth</span>
             </div>
         </section>
     </div>
 
+    <script src="sound.js"></script>
     <script>
+        // Page transition for internal links
         document.querySelectorAll('.link, .back-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 const href = this.getAttribute('href');
@@ -329,6 +695,34 @@
                         window.location.href = href;
                     }, 400);
                 }
+            });
+        });
+
+        // Filter functionality
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        const sections = document.querySelectorAll('.content-section, .featured-section');
+
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update active tab
+                filterTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                const filter = tab.dataset.filter;
+
+                // Show/hide sections
+                sections.forEach(section => {
+                    if (filter === 'all') {
+                        section.style.display = 'block';
+                    } else {
+                        const categories = section.dataset.category || '';
+                        if (categories.includes(filter)) {
+                            section.style.display = 'block';
+                        } else {
+                            section.style.display = 'none';
+                        }
+                    }
+                });
             });
         });
     </script>
