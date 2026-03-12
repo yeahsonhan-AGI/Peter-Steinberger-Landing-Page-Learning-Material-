@@ -223,10 +223,6 @@ function createCommentElement(comment) {
 
 // Create a reply element
 function createReplyElement(reply) {
-    const div = document.createElement('div');
-    div.className = 'reply-item';
-    div.dataset.replyId = reply.id;
-
     const date = new Date(reply.created_at).toLocaleDateString('en-US', {
         month: 'short',
         day: 'numeric',
@@ -235,16 +231,16 @@ function createReplyElement(reply) {
 
     const deleteButton = reply.is_owner ? '<button class="reply-delete" onclick="deleteReply(\'' + reply.id + '\', \'' + reply.comment_id + '\')">Delete</button>' : '';
 
-    div.innerHTML = `
-        <div class="reply-header">
-            <span class="reply-username">${escapeHtml(reply.username)}</span>
-            <span class="reply-date">${date}</span>
-            ${deleteButton}
+    return `
+        <div class="reply-item" data-reply-id="${reply.id}">
+            <div class="reply-header">
+                <span class="reply-username">${escapeHtml(reply.username)}</span>
+                <span class="reply-date">${date}</span>
+                ${deleteButton}
+            </div>
+            <div class="reply-content">${escapeHtml(reply.content)}</div>
         </div>
-        <div class="reply-content">${escapeHtml(reply.content)}</div>
     `;
-
-    return div;
 }
 
 // React to a comment (like/dislike)
